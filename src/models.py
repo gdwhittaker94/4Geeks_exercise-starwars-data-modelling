@@ -7,6 +7,17 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
+class Users(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    name = name = Column(String(50), nullable=False)
+    country = Column(String(50))
+    birthday = Column(String(50))
+    email = Column(String(50), unique=True)
+    fav_user_Planets = relationship('Favorite_Planets', backref='users', lazy=True)
+    fav_user_Characters = relationship('Favorite_Characters', backref='users', lazy=True)
+    fav_user_Vehicles = relationship('Favorite_Vehicles', backref='users', lazy=True)
+
 class Vehicles(Base):
     __tablename__ = 'vehicles'
     id = Column(Integer, primary_key=True)
@@ -34,6 +45,8 @@ class Planets(Base):
     name = Column(String(50))
     climate = Column(String(50))
     terrain = Column(String(50))
+    fav_planet = relationship('Favorite_planets', backref='planets', lazy=True)
+
 
 class Characters(Base):
     __tablename__ = 'characters'
@@ -45,41 +58,29 @@ class Characters(Base):
     hair_color = Column(String(50))
     eye_color = Column(String(50))
     birth_year = Column(String(50))
-    homeworld_planet = Column(Integer, ForeignKey('planets.id')) #Link to planets table 
-    homeworld = relationship(Planets)
+
     
 class Favorite_Planets(Base):
     __tablename__ = 'favorite_planets'
     id = Column(Integer, primary_key=True)
-    favorite_planet = Column(Integer, ForeignKey('planets.id'))
+    planet_id = Column(Integer, ForeignKey('planets.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
 
 class Favorite_Characters(Base):
     __tablename__ = 'favorite_characters'
     id = Column(Integer, primary_key=True)
-    favorite_chracters = Column(Integer, ForeignKey('characters.id'))
+    character_id = Column(Integer, ForeignKey('characters.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
 
 class Favorite_Vehicles(Base):
     __tablename__ = 'favorite_vehicles'
     id = Column(Integer, primary_key=True)
-    favorite_vehicle = Column(Integer, ForeignKey('vehicles.id'))
-
-class Users(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    name = name = Column(String(50), nullable=False)
-    country = Column(String(50))
-    birthday = Column(String(50))
-    email = Column(String(50), unique=True)
-    user_fav_planet = Column(Integer, ForeignKey('favorite_planets.id'))
-    user_fav_character = Column(Integer, ForeignKey('favorite_characters.id'))
-    user_fav_vehicle = Column(Integer, ForeignKey('favorite_vehicles.id'))
-    fav_characters = relationship(Favorite_Characters)
-    fav_planets = relationship(Favorite_Planets)
-    fav_vehicles = relationship(Favorite_Vehicles)
+    vehicle_id = Column(Integer, ForeignKey('vehicles.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
 
   
-def to_dict(self):
-    return {}
+# def to_dict(self):
+#     return {}
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
