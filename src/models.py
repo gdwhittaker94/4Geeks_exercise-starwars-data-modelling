@@ -7,32 +7,20 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-# class Person(Base):
-#     __tablename__ = 'person'
-#     # Here we define columns for the table person
-#     # Notice that each column is also a normal Python instance attribute.
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(250), nullable=False)
-
-# class Address(Base):
-#     __tablename__ = 'address'
-#     # Here we define columns for the table address.
-#     # Notice that each column is also a normal Python instance attribute.
-#     id = Column(Integer, primary_key=True)
-#     street_name = Column(String(250))
-#     street_number = Column(String(250))
-#     post_code = Column(String(250), nullable=False)
-#     person_id = Column(Integer, ForeignKey('person.id'))
-#     person = relationship(Person)
-
-class Users(Base):
-    __tablename__ = 'users'
+class Vehicles(Base):
+    __tablename__ = 'vehicles'
     id = Column(Integer, primary_key=True)
-    name = name = Column(String(50), nullable=False)
-    country = Column(String(50))
-    birthday = Column(String(50))
-    email = Column(String(50), unique=True)
-    homeworld_planet = Column(Integer, ForeignKey('planets.id'))
+    name = Column(String(50))
+    model = Column(String(50))
+    vehicle_class = Column(String(50))
+    manufacturer = Column(String(50))
+    consumables = Column(String(50))
+    cost_in_credits = Column(Integer)
+    crew = Column(Integer)
+    length = Column(Float)
+    crew = Column(Integer)
+    max_atmosphering_speed = Column(Integer)
+    cargo_capacity = Column(Integer)
 
 class Planets(Base):
     __tablename__ = 'planets'
@@ -57,35 +45,37 @@ class Characters(Base):
     hair_color = Column(String(50))
     eye_color = Column(String(50))
     birth_year = Column(String(50))
-    homeworld_planet = Column(Integer, ForeignKey('planets.id'))
+    homeworld_planet = Column(Integer, ForeignKey('planets.id')) #Link to planets table 
     homeworld = relationship(Planets)
     
-class Vehicles(Base):
-    __tablename__ = 'vehicles'
+class Favorite_Planets(Base):
+    __tablename__ = 'favorite_planets'
     id = Column(Integer, primary_key=True)
-    name = Column(String(50))
-    model = Column(String(50))
-    vehicle_class = Column(String(50))
-    manufacturer = Column(String(50))
-    consumables = Column(String(50))
-    cost_in_credits = Column(Integer)
-    crew = Column(Integer)
-    length = Column(Float)
-    crew = Column(Integer)
-    max_atmosphering_speed = Column(Integer)
-    cargo_capacity = Column(Integer)
+    favorite_planet = Column(Integer, ForeignKey('planets.id'))
 
-class Favorites(Base):
-    __tablename__ = 'favorites'
+class Favorite_Characters(Base):
+    __tablename__ = 'favorite_characters'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    fav_planet = Column(Integer, ForeignKey('planets.id'))
-    fav_char = Column(Integer, ForeignKey('characters.id'))
-    fav_vehicle = Column(Integer, ForeignKey('vehicles.id'))
-    users = relationship(Users)
-    planets = relationship(Planets)
-    characters = relationship(Characters)
-    vehicle = relationship(Vehicles)
+    favorite_chracters = Column(Integer, ForeignKey('characters.id'))
+
+class Favorite_Vehicles(Base):
+    __tablename__ = 'favorite_vehicles'
+    id = Column(Integer, primary_key=True)
+    favorite_vehicle = Column(Integer, ForeignKey('vehicles.id'))
+
+class Users(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    name = name = Column(String(50), nullable=False)
+    country = Column(String(50))
+    birthday = Column(String(50))
+    email = Column(String(50), unique=True)
+    user_fav_planet = Column(Integer, ForeignKey('favorite_planets.id'))
+    user_fav_character = Column(Integer, ForeignKey('favorite_characters.id'))
+    user_fav_vehicle = Column(Integer, ForeignKey('favorite_vehicles.id'))
+    fav_characters = relationship(Favorite_Characters)
+    fav_planets = relationship(Favorite_Planets)
+    fav_vehicles = relationship(Favorite_Vehicles)
 
   
 def to_dict(self):
@@ -93,3 +83,22 @@ def to_dict(self):
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
+
+
+# class Person(Base):
+#     __tablename__ = 'person'
+#     # Here we define columns for the table person
+#     # Notice that each column is also a normal Python instance attribute.
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String(250), nullable=False)
+
+# class Address(Base):
+#     __tablename__ = 'address'
+#     # Here we define columns for the table address.
+#     # Notice that each column is also a normal Python instance attribute.
+#     id = Column(Integer, primary_key=True)
+#     street_name = Column(String(250))
+#     street_number = Column(String(250))
+#     post_code = Column(String(250), nullable=False)
+#     person_id = Column(Integer, ForeignKey('person.id'))
+#     person = relationship(Person)
