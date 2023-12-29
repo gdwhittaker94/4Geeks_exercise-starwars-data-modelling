@@ -8,7 +8,7 @@ Below you can see the final output of the code which can be found in the file "m
 
 ![starwarsdb](https://github.com/gdwhittaker94/4Geeks_exercise-starwars-data-modelling/assets/105855731/7dc1cbc4-d016-4f81-87f5-fb8725b59b2c)
 
-## ------------------------------------------------
+
 ## Original Project Documentation 
 > 🔥 You can use this FREE tool to practice your diagram for the first time: https://app.quickdatabasediagrams.com/#/d/
 
