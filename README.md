@@ -1,4 +1,4 @@
-# StarWars blog database modelling
+# Starwars Blog Database Modelling
 
 This was one of my first ever backend projects, designed to help us learn about (relational) databases, the programming languages SQL as well as SQLAlchemy which allows us to more easily use SQL to communicate and interact with databases, and finally the different types of relationships that can exist with relational databases (1:1, 1:N, N:N etc).
 
